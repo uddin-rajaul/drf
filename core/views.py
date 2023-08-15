@@ -2,21 +2,16 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import CheckList, CheckListItem
 from .serializers import CheckListSerializers, CheckListItemSerializers
+
+
 # Create your views here.
-
-
-class TestAPI(APIView):
-    def get(self, request, format=None):
-        return Response({
-            'name': "Rajaul Uddin"
-        })
-
-
 class CheckListsAPIView(APIView):
     serializer_class = CheckListSerializers
+    permission_classes = [IsAuthenticated, ]
     def get(self, request, format=None):
         data = CheckList.objects.all()
 
