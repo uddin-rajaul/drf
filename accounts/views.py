@@ -17,8 +17,15 @@ class RegisterAPIView(APIView):
             response_data =  {
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                # 'user': serializer.data
+                'user': serializer.data
             }
 
             return Response(response_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutAPIView(APIView):
+    def post(self, request, format = None):
+        token = request.META['HTTP_AUTHORIZATION'].split(' ')[1]
+        print(token)
+            # return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
