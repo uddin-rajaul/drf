@@ -21,7 +21,7 @@ class CheckListsAPIView(APIView):
         return Response(serialized_data, status=status.HTTP_200_OK)
     
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data, context = {'request': request})
         if serializer.is_valid(): 
             serializer.save()
             serialized_data = serializer.data

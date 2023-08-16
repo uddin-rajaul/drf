@@ -25,7 +25,10 @@ class RegisterAPIView(APIView):
 
 class LogoutAPIView(APIView):
     def post(self, request, format = None):
-        token = request.META['HTTP_AUTHORIZATION'].split(' ')[1]
-        print(token)
-            # return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            refresh_token = request.data.get('refresh_token')
+            token_obj = RefreshToken(refresh_token)
+            token_obj.blacklist()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({'detail': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
